@@ -4,6 +4,13 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import AttendanceStreak from '../components/AttendanceStreak';
 import ExportPDF from '../components/ExportPDF';
+import OnboardingGuide, { useOnboarding } from '../components/OnboardingGuide';
+
+// inside the component:
+
+
+// in the JSX:
+
 
 const TABS = ['ATTENDANCE', 'ROSTER', 'GAME'];
 
@@ -24,6 +31,7 @@ export default function CaptainDashboard() {
   const [suggestedPlayers, setSuggestedPlayers] = useState([]);
   const [selectedForGame, setSelectedForGame] = useState([]);
   const today = new Date().toISOString().split('T')[0];
+  const { show, finish } = useOnboarding('htu_captain_guide');
 
   const loadData = useCallback(async () => {
     if (!captain) return;
@@ -152,6 +160,9 @@ export default function CaptainDashboard() {
   if (!captain) return null;
 
   return (
+    <>
+    {show && <OnboardingGuide role="captain" onFinish={finish} />}
+   
     <div style={{ minHeight: '100vh', background: 'var(--bg-void)', color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}>
       {/* Background */}
       <div className="bg-grid" />
@@ -555,6 +566,7 @@ export default function CaptainDashboard() {
         </div>
       )}
     </div>
+     </>
   );
 }
 

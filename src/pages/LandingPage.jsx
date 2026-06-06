@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import OnboardingGuide, { useOnboarding } from '../components/OnboardingGuide';
+
+
+
+// in the JSX, before the closing div:
+
 
 export default function LandingPage() {
   const [hovered, setHovered] = useState(null);
   const navigate = useNavigate();
 
+const { show, finish } = useOnboarding('htu_player_guide');
   return (
+    <>
+    {show && <OnboardingGuide role="player" onFinish={finish} />}
+    
     <div style={{ minHeight: '100vh', minHeight: '100dvh', background: 'var(--bg-void)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px 16px', position: 'relative' }}>
       <div className="bg-grid" />
       <div className="bg-radial" />
@@ -62,6 +72,7 @@ export default function LandingPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
